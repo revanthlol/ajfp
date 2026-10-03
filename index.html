@@ -9,24 +9,33 @@
 body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
 pre,code,input,button,.mono{font-family:ui-monospace,"Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:10px;align-items:center;padding:22px 20px 14px;flex-wrap:wrap;max-width:880px;margin:0 auto}
-header h1{font-size:15px;font-weight:500;margin:0 auto 0 0;letter-spacing:.2px;color:#e3e6ea}
-input{background:#1b1b1f;border:0;color:var(--fg);padding:9px 14px;font-size:12px;width:220px;max-width:100%;border-radius:10px}
-input::placeholder{color:var(--mut)}
-input:focus,button:focus-visible{outline:2px solid #6c9bd155;outline-offset:1px}
-header button{color:var(--mut);font-size:12px;padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
-header button:hover{background:#1b1b1f;color:var(--fg)}
-main{max-width:880px;margin:0 auto;padding:0 12px 48px}
-.item{margin:10px 0;border-radius:14px;border:1px solid #33333b;background:#151518;box-shadow:0 1px 0 #ffffff08 inset;transition:background .3s,border-color .3s}
-.item:not(.open):hover{border-color:#464652}
-.item.open{background:var(--card);border-color:#44444f}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:12px;align-items:center;padding:18px 16px 14px;flex-wrap:wrap;max-width:900px;margin:0 auto;border-bottom:1px solid #1c1c20}
+header h1{font-size:16px;font-weight:600;margin:0;letter-spacing:.2px;color:#e3e6ea;display:flex;align-items:center;gap:8px}
+header h1::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#6c9bd1;box-shadow:0 0 10px #6c9bd1bb}
+.search-box{position:relative;display:flex;align-items:center;flex:1;min-width:260px;max-width:380px}
+.search-ico{position:absolute;left:12px;width:15px;height:15px;color:#767b85;pointer-events:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:color .2s}
+.search-box input{width:100%;background:#19191d;border:1px solid #303038;color:var(--fg);padding:9px 14px 9px 36px;font-size:12.5px;border-radius:10px;transition:border-color .2s,box-shadow .2s,background .2s}
+.search-box input::placeholder{color:#6c727e}
+.search-box input:focus{outline:none;background:#1e1e24;border-color:#6c9bd1aa;box-shadow:0 0 0 3px #6c9bd128}
+.search-box:focus-within .search-ico{color:#8fc0d9}
+.hdr-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
+.btn-sec{display:inline-flex;align-items:center;gap:7px;background:#1b1b1f;color:#c0c6cf;font-size:12px;font-weight:500;padding:8px 13px;border-radius:10px;border:1px solid #33333d;box-shadow:0 1px 2px #00000040;transition:background .2s,border-color .2s,color .2s,transform .15s}
+.btn-sec:hover{background:#25252c;border-color:#4c4c5a;color:#ffffff}
+.btn-sec:active{transform:scale(.96)}
+.btn-sec svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;color:#8fa7c4}
+main{max-width:900px;margin:0 auto;padding:0 12px 48px}
+.item{margin:10px 0;border-radius:14px;border:1px solid #2f2f37;background:#151518;box-shadow:0 1px 0 #ffffff08 inset;transition:background .25s,border-color .25s}
+.item:not(.open):hover{border-color:#484856}
+.item.open{background:var(--card);border-color:#4c4c58}
 .item>.h{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;text-align:left;border-radius:13px;transition:background .2s}
 .item>.h:hover{background:var(--hov)}
 .item.open>.h:hover{background:transparent}
-.n{color:var(--mut);width:20px;text-align:right;font-size:12px}
-.c{color:var(--mut);font-size:11px;transition:transform .3s ease}
-.item.open .c{transform:rotate(90deg)}
-.t{flex:1;color:#dfe2e6}
+.n{color:#767c87;width:20px;text-align:right;font-size:13px;font-weight:500}
+.c{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:#1d1d22;border:1px solid #32323c;color:#8a919e;transition:transform .28s cubic-bezier(.4,0,.2,1),background .2s,border-color .2s,color .2s;flex-shrink:0}
+.c svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.item>.h:hover .c{background:#26262e;border-color:#464654;color:#e3e6ea}
+.item.open .c{transform:rotate(90deg);background:#6c9bd124;border-color:#6c9bd155;color:#8fc0d9}
+.t{flex:1;color:#dfe3e8;font-size:14px;font-weight:500}
 .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.4,0,.2,1)}
 .item.open .body{grid-template-rows:1fr}
 .in{overflow:hidden;min-height:0;visibility:hidden;opacity:0;transition:opacity .25s ease,visibility .35s}
@@ -54,15 +63,26 @@ main{max-width:880px;margin:0 auto;padding:0 12px 48px}
 @keyframes draw{to{stroke-dashoffset:0}}
 .dir{margin:6px 12px 10px;padding:12px 16px;border-radius:10px;background:#131316;font-size:12px;line-height:1.6;color:#a8b0bb;white-space:pre;overflow-x:auto;scrollbar-width:thin}
 .dir b{color:var(--mut);font-weight:400;font-size:11px;letter-spacing:.8px}
-.dl{display:inline-flex;align-items:center;gap:8px;background:#6c9bd1;color:#0f1620;font-size:12px;font-weight:600;padding:9px 15px;border-radius:10px;text-decoration:none;transition:background .2s,transform .15s}
-.dl:hover{background:#82aedb}.dl:active{transform:scale(.96)}
-.dl svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dl{display:inline-flex;align-items:center;gap:8px;background:#6c9bd1;color:#0b131c;font-size:12px;font-weight:600;padding:8px 14px;border-radius:10px;text-decoration:none;transition:background .2s,transform .15s;box-shadow:0 1px 3px #6c9bd144}
+.dl:hover{background:#83aedd}.dl:active{transform:scale(.96)}
+.dl svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .empty{display:none;padding:32px;text-align:center;color:var(--mut)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-@media (max-width:560px){.code{font-size:12px}header{padding:16px 14px 10px}}
+@media (max-width:680px){.code{font-size:12px}header{padding:14px 12px 10px}.search-box{min-width:100%;max-width:100%;order:3}.hdr-btns{width:100%;justify-content:space-between;order:4}}
 </style></head>
 <body>
-<header><h1>AdvancedJava.cheat</h1><input id="q" type="search" placeholder="Search title or code  ( / )" aria-label="Filter programs"><button id="ex">Expand all</button><button id="co">Collapse all</button><a id="dl" class="dl" href="#"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Download source code</a></header>
+<header>
+  <h1>AdvancedJava.cheat</h1>
+  <div class="search-box">
+    <svg class="search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input id="q" type="search" placeholder="Search practicals or code..." aria-label="Filter programs">
+  </div>
+  <div class="hdr-btns">
+    <button id="ex" class="btn-sec"><svg viewBox="0 0 24 24"><polyline points="7 9 12 4 17 9"></polyline><polyline points="7 15 12 20 17 15"></polyline></svg><span>Expand all</span></button>
+    <button id="co" class="btn-sec"><svg viewBox="0 0 24 24"><polyline points="7 4 12 9 17 4"></polyline><polyline points="7 20 12 15 17 20"></polyline></svg><span>Collapse all</span></button>
+    <a id="dl" class="dl" href="#"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"></path></svg><span>Download source code</span></a>
+  </div>
+</header>
 <main id="m"></main>
 <script>
 // Paste your GitHub zip link below, e.g. https://github.com/USER/REPO/archive/refs/heads/main.zip
@@ -424,7 +444,7 @@ const hl=(c,l)=>l==="java"?jv(c):l==="txt"?E(c):mk(c);
 const M=document.getElementById("m"),dl=document.getElementById("dl");if(ZIP_URL)dl.href=ZIP_URL;else dl.onclick=e=>e.preventDefault();
 D.forEach((p,i)=>{
  const it=document.createElement("section");it.className="item";it.dataset.t=p.t.toLowerCase();it.id="p"+(i+1);
- it.innerHTML=`<button class="h" aria-expanded="false"><span class="c">&#9656;</span><span class="n mono">${i+1}</span><span class="t">${E(p.t)}</span></button><div class="body"><div class="in"><div class="tabs">${p.f.map((f,j)=>`<button class="tab${j?"":" on"}" data-j="${j}">${E(f[0])}</button>`).join("")}<button class="cp"><svg class="cc" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/></svg><svg class="ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Copy</span></button></div><div class="view"></div>${p.d?`<div class="dir mono"><b>FOLDER STRUCTURE</b>\n${E(p.d)}</div>`:""}${p.n?`<div class="note">${E(p.n)}</div>`:""}<div class="out mono"><b>OUTPUT</b>\n${E(p.o)}</div></div></div>`;
+ it.innerHTML=`<button class="h" aria-expanded="false"><span class="c"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></span><span class="n mono">${i+1}</span><span class="t">${E(p.t)}</span></button><div class="body"><div class="in"><div class="tabs">${p.f.map((f,j)=>`<button class="tab${j?"":" on"}" data-j="${j}">${E(f[0])}</button>`).join("")}<button class="cp"><svg class="cc" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/></svg><svg class="ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Copy</span></button></div><div class="view"></div>${p.d?`<div class="dir mono"><b>FOLDER STRUCTURE</b>\n${E(p.d)}</div>`:""}${p.n?`<div class="note">${E(p.n)}</div>`:""}<div class="out mono"><b>OUTPUT</b>\n${E(p.o)}</div></div></div>`;
  const v=it.querySelector(".view"),draw=j=>{const f=p.f[j];const n=f[2].split("\n").length;v.innerHTML=`<div class="code"><pre class="gut">${Array.from({length:n},(_,k)=>k+1).join("\n")}</pre><pre class="src">${hl(f[2],f[1])}</pre></div>`;it.dataset.j=j};
  draw(0);
  it.querySelector(".h").onclick=()=>tog(it);
