@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Advanced Java Practical Cheatsheet</title>
+<meta name="description" content="Short exam-ready Advanced Java programs: collections, beans, DOM, servlets, JSP, JDBC, sockets.">
+<style>
+:root{--bg:#121214;--card:#18181b;--fg:#c8ccd2;--mut:#767b85;--acc:#6c9bd1;--hov:#17171a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+*{box-sizing:inherit}html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+pre,code,input,button,.mono{font-family:ui-monospace,"Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:10px;align-items:center;padding:22px 20px 14px;flex-wrap:wrap;max-width:880px;margin:0 auto}
+header h1{font-size:15px;font-weight:500;margin:0 auto 0 0;letter-spacing:.2px;color:#e3e6ea}
+input{background:#1b1b1f;border:0;color:var(--fg);padding:9px 14px;font-size:12px;width:220px;max-width:100%;border-radius:10px}
+input::placeholder{color:var(--mut)}
+input:focus,button:focus-visible{outline:2px solid #6c9bd155;outline-offset:1px}
+header button{color:var(--mut);font-size:12px;padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+header button:hover{background:#1b1b1f;color:var(--fg)}
+main{max-width:880px;margin:0 auto;padding:0 12px 48px}
+.item{margin:10px 0;border-radius:14px;border:1px solid #33333b;background:#151518;box-shadow:0 1px 0 #ffffff08 inset;transition:background .3s,border-color .3s}
+.item:not(.open):hover{border-color:#464652}
+.item.open{background:var(--card);border-color:#44444f}
+.item>.h{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;text-align:left;border-radius:13px;transition:background .2s}
+.item>.h:hover{background:var(--hov)}
+.item.open>.h:hover{background:transparent}
+.n{color:var(--mut);width:20px;text-align:right;font-size:12px}
+.c{color:var(--mut);font-size:11px;transition:transform .3s ease}
+.item.open .c{transform:rotate(90deg)}
+.t{flex:1;color:#dfe2e6}
+.body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.4,0,.2,1)}
+.item.open .body{grid-template-rows:1fr}
+.in{overflow:hidden;min-height:0;visibility:hidden;opacity:0;transition:opacity .25s ease,visibility .35s}
+.item.open .in{visibility:visible;opacity:1}
+.tabs{display:flex;gap:4px;padding:0 12px;overflow-x:auto;scrollbar-width:none}
+.tab{padding:7px 12px;font-size:12px;color:var(--mut);border-radius:8px;white-space:nowrap;transition:color .2s,background .2s}
+.tab:hover{color:var(--fg)}
+.tab.on{color:#e3e6ea;background:#202025}
+.code{display:flex;overflow-x:auto;padding:12px 4px 14px;font-size:13px;line-height:1.7;scrollbar-width:thin;scrollbar-color:#2a2a30 transparent}
+.code pre{margin:0;tab-size:2}
+.gut{color:#4a4e57;text-align:right;padding:0 14px 0 16px;user-select:none;flex:none}
+.src{padding-right:20px;white-space:pre}
+.note{margin:0 16px 10px;color:var(--mut);font-size:12px}
+.out{margin:0 12px 12px;padding:12px 16px;border-radius:10px;background:#131316;font-size:12px;color:#8fc0d9;white-space:pre-wrap}
+.out b{color:var(--mut);font-weight:400;font-size:11px;letter-spacing:.8px}
+.k{color:#6f9fd1}.f{color:#b08ac0}.s{color:#c49a82}.m{color:#5f8a63}.d{color:#a8bf9c}.y{color:#5fb3a5}.fn{color:#d4c58f}.a{color:#8fc0d9}.j{color:#d9b95f}
+.tabs{align-items:center}
+.cp{display:inline-flex;align-items:center;gap:7px;margin-left:auto;background:#6c9bd122;color:#8fb6e3;font-size:12px;padding:7px 14px;border-radius:9px;transition:background .2s,color .2s,transform .15s}
+.cp:hover{background:#6c9bd138}.cp:active{transform:scale(.93)}
+.cp svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cp .ck{display:none}.cp.done{background:#4a9d6a2e;color:#7fd1a0;animation:pop .45s ease}
+.cp.done .cc{display:none}.cp.done .ck{display:block}
+.cp.done .ck path{stroke-dasharray:20;stroke-dashoffset:20;animation:draw .35s .1s ease forwards}
+@keyframes pop{0%{transform:scale(.92)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.dir{margin:6px 12px 10px;padding:12px 16px;border-radius:10px;background:#131316;font-size:12px;line-height:1.6;color:#a8b0bb;white-space:pre;overflow-x:auto;scrollbar-width:thin}
+.dir b{color:var(--mut);font-weight:400;font-size:11px;letter-spacing:.8px}
+.dl{display:inline-flex;align-items:center;gap:8px;background:#6c9bd1;color:#0f1620;font-size:12px;font-weight:600;padding:9px 15px;border-radius:10px;text-decoration:none;transition:background .2s,transform .15s}
+.dl:hover{background:#82aedb}.dl:active{transform:scale(.96)}
+.dl svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.empty{display:none;padding:32px;text-align:center;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:560px){.code{font-size:12px}header{padding:16px 14px 10px}}
+</style></head>
+<body>
+<header><h1>AdvancedJava.cheat</h1><input id="q" type="search" placeholder="Search title or code  ( / )" aria-label="Filter programs"><button id="ex">Expand all</button><button id="co">Collapse all</button><a id="dl" class="dl" href="#"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Download source code</a></header>
+<main id="m"></main>
+<script>
+// Paste your GitHub zip link below, e.g. https://github.com/USER/REPO/archive/refs/heads/main.zip
+const ZIP_URL="https://github.com/revanthlol/ajfp/archive/refs/heads/main.zip";
+const D=[
+{t:"List interface",f:[["ListDemo.java","java",`import java.util.*;
+public class ListDemo {
+  public static void main(String[] a) {
+    List<String> l = new ArrayList<>();
+    l.add("Apple");
+    l.add("Banana");
+    l.add(1, "Mango");
+    l.set(0, "Orange");
+    l.remove("Banana");
+    System.out.println(l);
+    System.out.println(l.get(1) + " " + l.contains("Mango") + " " + l.size());
+    for (String s : l) System.out.println(s);
+  }
+}`]],o:"[Orange, Mango]\nMango true 2\nOrange\nMango"},
+{t:"Set interface",f:[["SetDemo.java","java",`import java.util.*;
+public class SetDemo {
+  public static void main(String[] a) {
+    Set<String> h = new HashSet<>();
+    h.add("Java"); h.add("Python"); h.add("Java");
+    Set<Integer> t = new TreeSet<>();
+    t.add(40); t.add(10); t.add(30);
+    System.out.println(h.size() + " " + h.contains("Java"));
+    h.remove("Java");
+    System.out.println(h + " " + t);
+  }
+}`]],o:"2 true\n[Python] [10, 30, 40]"},
+{t:"Queue interface",f:[["QueueDemo.java","java",`import java.util.*;
+public class QueueDemo {
+  public static void main(String[] a) {
+    Queue<String> q = new LinkedList<>();
+    q.offer("T1"); q.offer("T2"); q.offer("T3");
+    System.out.println(q.peek());
+    System.out.println(q.poll());
+    System.out.println(q);
+  }
+}`]],o:"T1\nT1\n[T2, T3]"},
+{t:"Access elements of Collections",f:[["AccessDemo.java","java",`import java.util.*;
+public class AccessDemo {
+  public static void main(String[] a) {
+    List<String> l = Arrays.asList("Red", "Green", "Blue");
+    Iterator<String> it = l.iterator();
+    while (it.hasNext()) System.out.print(it.next() + " ");
+    ListIterator<String> li = l.listIterator();
+    while (li.hasNext()) li.next();
+    System.out.println();
+    while (li.hasPrevious()) System.out.print(li.previous() + " ");
+    System.out.println();
+    for (String s : l) System.out.print(s + " ");
+  }
+}`]],o:"Red Green Blue\nBlue Green Red\nRed Green Blue"},
+{t:"Comparator interface",f:[["ComparatorDemo.java","java",`import java.util.*;
+class S {
+  String n; int m;
+  S(String n, int m) { this.n = n; this.m = m; }
+  public String toString() { return n + " " + m; }
+}
+class MarkCmp implements Comparator<S> {
+  public int compare(S a, S b) { return b.m - a.m; }
+}
+public class ComparatorDemo {
+  public static void main(String[] x) {
+    List<S> l = new ArrayList<>();
+    l.add(new S("Alice", 85));
+    l.add(new S("Bob", 92));
+    l.add(new S("Charlie", 78));
+    Collections.sort(l, new MarkCmp());
+    System.out.println(l);
+  }
+}`]],o:"[Bob 92, Alice 85, Charlie 78]",n:"Highest marks first. Lambda alternative: l.sort((a, b) -> b.m - a.m);"},
+{t:"Collection algorithms",f:[["AlgoDemo.java","java",`import java.util.*;
+public class AlgoDemo {
+  public static void main(String[] a) {
+    List<Integer> l = new ArrayList<>(Arrays.asList(40, 10, 30, 20, 10));
+    Collections.sort(l);
+    System.out.println(l);
+    Collections.reverse(l);
+    System.out.println(l);
+    System.out.println(Collections.min(l) + " " + Collections.max(l));
+    System.out.println(Collections.frequency(l, 10));
+    Collections.swap(l, 0, 4);
+    Collections.sort(l);
+    System.out.println(Collections.binarySearch(l, 30));
+  }
+}`]],o:"[10, 10, 20, 30, 40]\n[40, 30, 20, 10, 10]\n10 40\n2\n3",n:"binarySearch only works on a sorted list, so sort first."},
+{t:"Simple Bean",d:`BeanDemo/
+├── SimpleBean.java
+├── Demo.java
+├── manifest.mft
+├── SimpleBean.class
+└── SimpleBean.jar
+
+javac *.java
+jar cfm SimpleBean.jar manifest.mft SimpleBean.class`,f:[["SimpleBean.java","java",`import java.io.Serializable;
+public class SimpleBean implements Serializable {
+  private String name;
+  private int id;
+  public SimpleBean() {}
+  public String getName() { return name; }
+  public void setName(String n) { name = n; }
+  public int getId() { return id; }
+  public void setId(int i) { id = i; }
+}`],["Demo.java","java",`public class Demo {
+  public static void main(String[] a) {
+    SimpleBean b = new SimpleBean();
+    b.setId(101);
+    b.setName("Loyola");
+    System.out.println(b.getId() + " " + b.getName());
+  }
+}`],["manifest.mft","txt",`Name: SimpleBean.class
+Java-Bean: True`]],o:"101 Loyola",n:"Bean = Serializable + no-arg constructor + private fields + getters/setters. Jar: jar cfm SimpleBean.jar manifest.mft SimpleBean.class"},
+{t:"XML: parse into DOM tree",d:`XmlDemo/
+├── ParseDom.java
+└── student.xml
+
+Run java ParseDom from inside this folder (the XML is read from the current directory).`,f:[["ParseDom.java","java",`import javax.xml.parsers.*;
+import org.w3c.dom.*;
+import java.io.*;
+public class ParseDom {
+  public static void main(String[] a) throws Exception {
+    Document d = DocumentBuilderFactory.newInstance()
+      .newDocumentBuilder().parse(new File("student.xml"));
+    System.out.println(d.getDocumentElement().getNodeName());
+    NodeList l = d.getElementsByTagName("student");
+    for (int i = 0; i < l.getLength(); i++) {
+      Element e = (Element) l.item(i);
+      System.out.println(e.getAttribute("id") + " "
+        + e.getElementsByTagName("name").item(0).getTextContent());
+    }
+  }
+}`],["student.xml","xml",`<students>
+  <student id="101"><name>Rahul</name></student>
+  <student id="102"><name>Anita</name></student>
+</students>`]],o:"students\n101 Rahul\n102 Anita"},
+{t:"XML: manipulate DOM tree",d:`XmlDemo/
+├── ManipulateDom.java
+└── student.xml
+
+Run java ManipulateDom from inside this folder (the XML is read from the current directory).`,f:[["ManipulateDom.java","java",`import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
+import org.w3c.dom.*;
+import java.io.*;
+public class ManipulateDom {
+  public static void main(String[] a) throws Exception {
+    Document d = DocumentBuilderFactory.newInstance()
+      .newDocumentBuilder().parse(new File("student.xml"));
+    Element s = (Element) d.getElementsByTagName("student").item(0);
+    s.getElementsByTagName("grade").item(0).setTextContent("A+");
+    Element dep = d.createElement("dept");
+    dep.setTextContent("CS");
+    s.appendChild(dep);
+    TransformerFactory.newInstance().newTransformer()
+      .transform(new DOMSource(d), new StreamResult(System.out));
+  }
+}`],["student.xml","xml",`<students>
+  <student id="101">
+    <name>Rahul</name>
+    <grade>B</grade>
+  </student>
+</students>`]],o:"<students><student id=\"101\"><name>Rahul</name><grade>A+</grade><dept>CS</dept></student></students>",n:"The grade tag must already exist in student.xml, else NullPointerException."},
+{t:"Servlet: arithmetic operations",d:`tomcat/webapps/ArithApp/
+├── index.html
+└── WEB-INF/
+    └── classes/
+        └── ArithServlet.class
+
+javac -cp <tomcat>/lib/servlet-api.jar -d WEB-INF/classes ArithServlet.java
+Open: http://localhost:8080/ArithApp/index.html`,f:[["ArithServlet.java","java",`import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+@WebServlet("/calc")
+public class ArithServlet extends HttpServlet {
+  protected void doGet(HttpServletRequest q, HttpServletResponse r) throws IOException {
+    double a = Double.parseDouble(q.getParameter("a"));
+    double b = Double.parseDouble(q.getParameter("b"));
+    PrintWriter o = r.getWriter();
+    o.println("Add = " + (a + b) + "<br>");
+    o.println("Sub = " + (a - b) + "<br>");
+    o.println("Mul = " + (a * b) + "<br>");
+    o.println("Div = " + (a / b) + "<br>");
+    o.println("Mod = " + (a % b));
+  }
+}`],["index.html","html",`<form action="calc">
+  A: <input name="a"><br>
+  B: <input name="b"><br>
+  <input type="submit" value="Calculate">
+</form>`]],o:"Add = 30.0\nSub = 10.0\nMul = 200.0\nDiv = 2.0\nMod = 0.0  (a=20, b=10)",n:"Tomcat 10+: replace javax.servlet with jakarta.servlet."},
+{t:"Servlet: student login",d:`tomcat/webapps/LoginApp/
+├── login.html
+└── WEB-INF/
+    └── classes/
+        └── LoginServlet.class
+
+javac -cp <tomcat>/lib/servlet-api.jar -d WEB-INF/classes LoginServlet.java
+Open: http://localhost:8080/LoginApp/login.html`,f:[["LoginServlet.java","java",`import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
+  protected void doPost(HttpServletRequest q, HttpServletResponse r) throws IOException {
+    PrintWriter o = r.getWriter();
+    String u = q.getParameter("username");
+    String p = q.getParameter("password");
+    if (u.equals("student") && p.equals("123"))
+      o.println("<h2>Login Successful</h2>Welcome, " + u);
+    else
+      o.println("<h2>Login Failed</h2>");
+  }
+}`],["login.html","html",`<form action="login" method="post">
+  Username: <input name="username"><br>
+  Password: <input type="password" name="password"><br>
+  <input type="submit" value="Login">
+</form>`]],o:"Login Successful\nWelcome, student",n:"Form method must be post because the servlet overrides doPost."},
+{t:"JSP: Hello World N times",d:`tomcat/webapps/JspApp/
+└── hello.jsp
+
+No compiling, no WEB-INF needed.
+Open: http://localhost:8080/JspApp/hello.jsp`,f:[["hello.jsp","jsp",`<%@ page language="java" %>
+<html><body>
+<form>
+  Count: <input name="count" value="5">
+  <input type="submit">
+</form>
+<%
+  String c = request.getParameter("count");
+  int n = (c != null) ? Integer.parseInt(c) : 5;
+  for (int i = 1; i <= n; i++) {
+%>
+  <p><%= i %>. Hello World</p>
+<% } %>
+</body></html>`]],o:"1. Hello World\n2. Hello World\n... up to N"},
+{t:"JSP scripting elements",d:`tomcat/webapps/JspApp/
+└── tags.jsp
+
+No compiling, no WEB-INF needed.
+Open: http://localhost:8080/JspApp/tags.jsp`,f:[["tags.jsp","jsp",`<%@ page language="java" %>
+<html><body>
+<%-- comment --%>
+<%! int square(int n) { return n * n; } %>
+<% int a = 10, b = 20; int sum = a + b; %>
+<p>Sum: <%= sum %></p>
+<p>Square of 5: <%= square(5) %></p>
+</body></html>`]],o:"Sum: 30\nSquare of 5: 25",n:"Directive <%@ %>, declaration <%! %>, scriptlet <% %>, expression <%= %>, comment <%-- --%>."},
+{t:"JDBC: create table",d:`JdbcDemo/
+├── CreateTable.java
+├── InsertValues.java
+└── lib/
+    └── mysql-connector-j.jar
+
+javac -cp ".:lib/*" CreateTable.java
+java -cp ".:lib/*" CreateTable      (use ; instead of : on Windows)
+Run CreateTable before InsertValues.`,f:[["CreateTable.java","java",`import java.sql.*;
+public class CreateTable {
+  public static void main(String[] a) throws Exception {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    Connection c = DriverManager.getConnection(
+      "jdbc:mysql://localhost:3306/college", "root", "root");
+    Statement s = c.createStatement();
+    s.executeUpdate("CREATE TABLE student(id INT PRIMARY KEY, name VARCHAR(50), marks DOUBLE)");
+    System.out.println("Table created");
+    c.close();
+  }
+}`]],o:"Table created",n:"Needs mysql-connector-j jar on the classpath and the college database to exist. Rerunning fails: table already exists."},
+{t:"JDBC: insert values",d:`JdbcDemo/
+├── CreateTable.java
+├── InsertValues.java
+└── lib/
+    └── mysql-connector-j.jar
+
+javac -cp ".:lib/*" InsertValues.java
+java -cp ".:lib/*" InsertValues      (use ; instead of : on Windows)
+Run CreateTable before InsertValues.`,f:[["InsertValues.java","java",`import java.sql.*;
+public class InsertValues {
+  public static void main(String[] a) throws Exception {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    Connection c = DriverManager.getConnection(
+      "jdbc:mysql://localhost:3306/college", "root", "root");
+    PreparedStatement p = c.prepareStatement("INSERT INTO student VALUES(?,?,?)");
+    p.setInt(1, 101);
+    p.setString(2, "Rahul");
+    p.setDouble(3, 88.5);
+    p.executeUpdate();
+    System.out.println("Record inserted");
+    c.close();
+  }
+}`]],o:"Record inserted",n:"Rerunning with id 101 fails: duplicate primary key."},
+{t:"TCP sockets: factorial",f:[["FactServer.java","java",`import java.io.*;
+import java.net.*;
+public class FactServer {
+  public static void main(String[] a) throws Exception {
+    ServerSocket ss = new ServerSocket(5000);
+    Socket s = ss.accept();
+    DataInputStream in = new DataInputStream(s.getInputStream());
+    DataOutputStream out = new DataOutputStream(s.getOutputStream());
+    int n = in.readInt();
+    long f = 1;
+    for (int i = 2; i <= n; i++) f *= i;
+    out.writeLong(f);
+    s.close(); ss.close();
+  }
+}`],["FactClient.java","java",`import java.io.*;
+import java.net.*;
+public class FactClient {
+  public static void main(String[] a) throws Exception {
+    Socket s = new Socket("localhost", 5000);
+    DataOutputStream out = new DataOutputStream(s.getOutputStream());
+    DataInputStream in = new DataInputStream(s.getInputStream());
+    out.writeInt(5);
+    System.out.println("Factorial = " + in.readLong());
+    s.close();
+  }
+}`]],o:"Factorial = 120",n:"Run FactServer first in one terminal, then FactClient in another."},
+{t:"UDP sockets: send and receive object",f:[["Student.java","java",`import java.io.*;
+public class Student implements Serializable {
+  int id; String name;
+  Student(int id, String name) { this.id = id; this.name = name; }
+  public String toString() { return id + " " + name; }
+}`],["UDPReceiver.java","java",`import java.io.*;
+import java.net.*;
+public class UDPReceiver {
+  public static void main(String[] a) throws Exception {
+    DatagramSocket s = new DatagramSocket(9876);
+    byte[] b = new byte[1024];
+    DatagramPacket p = new DatagramPacket(b, b.length);
+    s.receive(p);
+    ObjectInputStream in = new ObjectInputStream(
+      new ByteArrayInputStream(p.getData(), 0, p.getLength()));
+    System.out.println("Received: " + in.readObject());
+    s.close();
+  }
+}`],["UDPSender.java","java",`import java.io.*;
+import java.net.*;
+public class UDPSender {
+  public static void main(String[] a) throws Exception {
+    ByteArrayOutputStream bo = new ByteArrayOutputStream();
+    new ObjectOutputStream(bo).writeObject(new Student(101, "Rahul"));
+    byte[] d = bo.toByteArray();
+    DatagramSocket s = new DatagramSocket();
+    s.send(new DatagramPacket(d, d.length, InetAddress.getByName("localhost"), 9876));
+    s.close();
+  }
+}`]],o:"Received: 101 Rahul",n:"Run UDPReceiver first, then UDPSender."}
+];
+const KW="abstract|boolean|break|byte|case|catch|class|double|else|extends|final|finally|for|if|implements|import|int|long|new|null|package|private|protected|public|return|static|super|this|throw|throws|try|void|while|true|false";
+const JR=new RegExp("(\\/\\/.*|\\/\\*[\\s\\S]*?\\*\\/)|(\"(?:[^\"\\\\]|\\\\.)*\")|(@\\w+)|\\b("+KW+")\\b|\\b(\\d+(?:\\.\\d+)?)\\b|\\b([A-Z]\\w*)\\b|(\\w+)(?=\\()","g");
+const E=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const jv=c=>{let r="",i=0,m;JR.lastIndex=0;while((m=JR.exec(c))){r+=E(c.slice(i,m.index));const t=m[0],e=E(t);r+=m[1]?`<span class="m">${e}</span>`:m[2]?`<span class="s">${e}</span>`:m[3]?`<span class="y">${e}</span>`:m[4]?`<span class="${/^(if|else|for|while|return|try|catch|finally|throw|break|case|import|package)$/.test(t)?"f":"k"}">${e}</span>`:m[5]?`<span class="d">${e}</span>`:m[6]?`<span class="y">${e}</span>`:`<span class="fn">${e}</span>`;i=m.index+t.length}return r+E(c.slice(i))};
+const tg=t=>{const m=/^<(\/?)([^\s>\/]+)([\s\S]*?)(\/?)>$/.exec(t);if(!m)return E(t);const at=E(m[3]).replace(/([\w:-]+)=("[^"]*")/g,'<span class="a">$1</span>=<span class="s">$2</span>');return`&lt;${m[1]}<span class="k">${E(m[2])}</span>${at}${m[4]}&gt;`};
+const mk=c=>c.split(/(<%[\s\S]*?%>|<[^>%][^>]*>)/).map(p=>{if(p.startsWith("<%")){if(p.startsWith("<%--"))return`<span class="m">${E(p)}</span>`;const x=/^<%([@!=]?)([\s\S]*?)%>$/.exec(p);return`<span class="j">&lt;%${x[1]}</span>${jv(x[2])}<span class="j">%&gt;</span>`}return p.startsWith("<")?tg(p):E(p)}).join("");
+const hl=(c,l)=>l==="java"?jv(c):l==="txt"?E(c):mk(c);
+const M=document.getElementById("m"),dl=document.getElementById("dl");if(ZIP_URL)dl.href=ZIP_URL;else dl.onclick=e=>e.preventDefault();
+D.forEach((p,i)=>{
+ const it=document.createElement("section");it.className="item";it.dataset.t=p.t.toLowerCase();it.id="p"+(i+1);
+ it.innerHTML=`<button class="h" aria-expanded="false"><span class="c">&#9656;</span><span class="n mono">${i+1}</span><span class="t">${E(p.t)}</span></button><div class="body"><div class="in"><div class="tabs">${p.f.map((f,j)=>`<button class="tab${j?"":" on"}" data-j="${j}">${E(f[0])}</button>`).join("")}<button class="cp"><svg class="cc" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/></svg><svg class="ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Copy</span></button></div><div class="view"></div>${p.d?`<div class="dir mono"><b>FOLDER STRUCTURE</b>\n${E(p.d)}</div>`:""}${p.n?`<div class="note">${E(p.n)}</div>`:""}<div class="out mono"><b>OUTPUT</b>\n${E(p.o)}</div></div></div>`;
+ const v=it.querySelector(".view"),draw=j=>{const f=p.f[j];const n=f[2].split("\n").length;v.innerHTML=`<div class="code"><pre class="gut">${Array.from({length:n},(_,k)=>k+1).join("\n")}</pre><pre class="src">${hl(f[2],f[1])}</pre></div>`;it.dataset.j=j};
+ draw(0);
+ it.querySelector(".h").onclick=()=>tog(it);
+ it.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{it.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));b.classList.add("on");draw(+b.dataset.j)});
+ it.querySelector(".cp").onclick=async e=>{const b=e.currentTarget,l=b.querySelector("span");let ok=1;try{await navigator.clipboard.writeText(p.f[+it.dataset.j][2])}catch(x){ok=0}l.textContent=ok?"Copied":"Press Ctrl+C";b.classList.remove("done");void b.offsetWidth;if(ok)b.classList.add("done");clearTimeout(b.t);b.t=setTimeout(()=>{b.classList.remove("done");l.textContent="Copy"},1600)};
+ M.appendChild(it)});
+function set(it,o){it.classList.toggle("open",o);it.querySelector(".h").setAttribute("aria-expanded",o)}
+function tog(it){const o=!it.classList.contains("open");set(it,o);if(o)history.replaceState(null,"","#"+it.id)}
+document.getElementById("ex").onclick=()=>M.querySelectorAll(".item").forEach(x=>set(x,true));
+document.getElementById("co").onclick=()=>M.querySelectorAll(".item").forEach(x=>set(x,false));
+const em=document.createElement("div");em.className="empty";em.textContent="No programs match.";M.appendChild(em);
+const q=document.getElementById("q"),IX=D.map(p=>(p.t+" "+p.f.map(f=>f[0]+" "+f[2]).join(" ")).toLowerCase());
+function filt(){const v=q.value.toLowerCase().trim();let n=0;M.querySelectorAll(".item").forEach((x,i)=>{const h=!v||(/^\d+$/.test(v)?String(i+1)===v:IX[i].includes(v));x.style.display=h?"":"none";if(h)n++});em.style.display=n?"none":"block"}
+q.addEventListener("input",filt);q.addEventListener("search",filt);
+q.addEventListener("keydown",e=>{if(e.key==="Escape"){q.value="";filt()}});
+document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==q){e.preventDefault();q.focus()}});
+if(location.hash){const t=document.querySelector(location.hash);t&&t.classList&&t.classList.contains("item")&&set(t,true)}
+</script></body></html>
