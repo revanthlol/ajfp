@@ -545,9 +545,16 @@
         align-items: center;
         gap: 7px;
         margin-left: auto;
-        background: var(--acc-glow);
-        color: var(--acc);
+        position: sticky;
+        right: 0;
+        flex-shrink: 0;
+        min-width: 92px;
+        justify-content: center;
+        border: 1px solid var(--acc);
+        background: var(--acc);
+        color: var(--bg);
         font-size: 12px;
+        font-weight: 600;
         padding: 7px 14px;
         border-radius: 5px;
         transition:
@@ -556,8 +563,8 @@
           transform 0.15s;
       }
       .cp:hover {
-        background: var(--acc-glow);
-        opacity: 0.85;
+        background: var(--dl-hover);
+        border-color: var(--dl-hover);
       }
       .cp:active {
         transform: scale(0.93);
@@ -575,8 +582,9 @@
         display: none;
       }
       .cp.done {
-        background: #4a9d6a2e;
-        color: #7fd1a0;
+        background: #183d2b;
+        border-color: #5ca87b;
+        color: #b8eccb;
         animation: pop 0.45s ease;
       }
       .cp.done .cc {
@@ -883,7 +891,7 @@
         color: #b5cca3;
       }
       .cp {
-        min-height: 32px;
+        min-height: 38px;
       }
       .out,
       .dir {
@@ -1026,6 +1034,11 @@
           flex-wrap: nowrap;
           gap: 5px;
         }
+      }
+      [data-theme="light"] .cp.done {
+        background: #e3f3e8;
+        color: #216139;
+        border-color: #5ca87b;
       }
     </style>
   </head>
@@ -1763,7 +1776,7 @@ public class UDPSender {
         it.className = "item";
         it.dataset.t = p.t.toLowerCase();
         it.id = "p" + (i + 1);
-        it.innerHTML = `<h2 class="question-heading"><button class="h" aria-expanded="false" aria-controls="body${i + 1}" id="heading${i + 1}"><span class="c"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></span><span class="n mono">${i + 1}</span><span class="t">${E(p.t)}</span></button></h2><div class="body" id="body${i + 1}"><div class="in"><div class="tabs" role="tablist" aria-label="Program files">${p.f.map((f, j) => `<button class="tab${j ? "" : " on"}" role="tab" aria-selected="${j === 0}" aria-controls="view${i + 1}" data-j="${j}">${E(f[0])}</button>`).join("")}<button class="cp" aria-label="Copy selected file"><svg class="cc" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/></svg><svg class="ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Copy</span></button></div><div class="view" id="view${i + 1}" role="tabpanel"></div>${p.d ? `<div class="dir mono"><b>FOLDER STRUCTURE</b>\n${E(p.d)}</div>` : ""}${p.n ? `<div class="note">${E(p.n)}</div>` : ""}<div class="out mono"><b>OUTPUT</b>\n${E(p.o)}</div></div></div>`;
+        it.innerHTML = `<h2 class="question-heading"><button class="h" aria-expanded="false" aria-controls="body${i + 1}" id="heading${i + 1}"><span class="c"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></span><span class="n mono">${i + 1}</span><span class="t">${E(p.t)}</span></button></h2><div class="body" id="body${i + 1}"><div class="in"><div class="tabs" role="tablist" aria-label="Program files">${p.f.map((f, j) => `<button class="tab${j ? "" : " on"}" role="tab" aria-selected="${j === 0}" aria-controls="view${i + 1}" data-j="${j}">${E(f[0])}</button>`).join("")}<button class="cp" aria-label="Copy selected file"><svg class="cc" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/></svg><svg class="ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span aria-live="polite">Copy</span></button></div><div class="view" id="view${i + 1}" role="tabpanel"></div>${p.d ? `<div class="dir mono"><b>FOLDER STRUCTURE</b>\n${E(p.d)}</div>` : ""}${p.n ? `<div class="note">${E(p.n)}</div>` : ""}<div class="out mono"><b>OUTPUT</b>\n${E(p.o)}</div></div></div>`;
         const v = it.querySelector(".view"),
           draw = (j) => {
             const f = p.f[j];
