@@ -180,3 +180,17 @@ java -cp ".;lib/*" InsertValues
   # Terminal 2:
   java UDPSender
   ```
+
+## Offline viewer and UI checks
+
+Copy only `index.html` to a flash drive and open it in a browser. Fonts, styling, syntax highlighting and JavaScript are embedded. Source ZIP downloads still require internet.
+
+The sidebar filters and opens all 17 questions. File tabs support arrow keys, Home and End. Copy buttons work from local files. The viewer supports phone layouts, reduced motion and both themes.
+
+UI verification uses an existing Playwright installation:
+
+```sh
+PLAYWRIGHT_MODULE=/path/to/playwright-core CHROME_PATH=/path/to/chrome node tests/ui-check.cjs
+```
+
+This checks offline interactions, mobile navigation, reading progress and widths of 390, 768 and 1440px. It does not execute the Java programs.
